@@ -16,7 +16,7 @@ CFLAGS		=	-Wall -Wextra -Werror -MMD -MP
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${CFLAGS} ${INCLUDES} -o $@
+	${CC} ${CFLAGS} ${OBJS} ${INCLUDES} -o $@
 
 .c.o:
 	${CC} ${CFLAGS} $< -c ${INCLUDES} -o $@
@@ -28,8 +28,6 @@ fclean: clean
 	${RM} ${NAME}
 
 re: fclean all
-
--include ${DEPS}
 
 ${MLX_PATH}:
 	git clone https://github.com/42Paris/minilibx-linux.git ${MLX_PATH}
