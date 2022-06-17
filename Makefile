@@ -2,9 +2,12 @@ NAME		=	so_long
 SRCSDIR		=	./srcs
 
 SRCS_NAME	=	main.c
-SRCS		=	${addprefix ${SRCSDIR}, ${SRCS_NAME}}
+SRCS		=	${addprefix ${SRCSDIR}/, ${SRCS_NAME}}
 OBJS		=	${SRCS:.c=.o}
 DEPS		=	${OBJS:%.o=%.d}
+
+MLX_PATH	:=	./minilibx-linux
+MLX_LIB		:=	-L$(MLX_PATH) -lmlx
 
 INCLUDES	=	-I ./includes
 CC			=	cc
