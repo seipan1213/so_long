@@ -22,7 +22,7 @@ ${NAME}: ${OBJS}
 	${CC} ${CFLAGS} $< -c ${INCLUDES} -o $@
 
 clean:
-	${RM} ${OBJS}
+	${RM} ${OBJS} ${DEPS}
 
 fclean: clean
 	${RM} ${NAME}
