@@ -60,6 +60,7 @@ typedef struct s_game_manager
 	int height;
 	int **map;
 	int item_sum;
+	size_t back_color;
 } t_game_manager;
 
 typedef struct s_so_long

@@ -19,10 +19,11 @@ void game_init(t_so_long *sl)
 	int i;
 	int j;
 
-	sl->gm.width = 10; // ft_strlen(gnlline);
-	sl->gm.height = 8; // list.cnt
+	sl->gm.width = 10;
+	sl->gm.height = 8;
 	sl->gm.item_sum = 0;
-	return; // TODO: MAP作成処理
+	sl->gm.back_color = create_trgb(0, 24, 235, 249); // TODO: 定数
+	return;											  // TODO: MAP作成処理
 	sl->gm.map = (int **)malloc(sizeof(int *) * sl->gm.height);
 	i = 0;
 	while (i < sl->gm.height)
@@ -74,9 +75,28 @@ void read_img(t_so_long *sl, t_img *img, char *path)
 								  &img->llen, &img->endian);
 }
 
+void game_update(t_so_long *sl)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			my_mlx_pixel_put(&sl->win_img, x, y, sl->gm.back_color);
+			x++;
+		}
+		y++;
+	}
+}
+
 int main_loop(t_so_long *sl)
 {
 	(void)sl;
+	game_update(sl);
 	mlx_put_image_to_window(sl->mlx, sl->win, sl->win_img.img, 0, 0);
 	return (0);
 }
