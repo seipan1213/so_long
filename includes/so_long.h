@@ -24,6 +24,7 @@
 #define MAP_ERROR "Error"
 #define MLX_ERROR "MLX Error"
 #define ARG_ERR "ARG Error"
+#define FILE_ERR "FILE Error"
 
 #define PLAYER_PATH "img/player.xpm"
 #define ITEM_PATH "img/item.xpm"
@@ -35,7 +36,8 @@ typedef enum e_err_type
 	ERR_MALLOC,
 	ERR_MAP,
 	ERR_MLX,
-	ERR_ARG
+	ERR_ARG,
+	ERR_FILE
 } t_err_type;
 
 typedef enum e_vec_type
@@ -111,12 +113,12 @@ size_t pic_color(t_img img, int i, int j);
 void put_exit_err(int type);
 
 int close_btn_hook(int keycode, t_so_long *sl);
-void sl_init(t_so_long *sl);
+void sl_init(t_so_long *sl, char *file_path);
 void view_init(t_so_long *sl);
 void imgs_init(t_so_long *sl);
 void read_img(t_so_long *sl, t_img *img, char *path);
 int main_loop(t_so_long *sl);
 int key_press_hook(int keycode, t_so_long *sl);
-void game_init(t_so_long *sl);
+void game_init(t_so_long *sl, char *file_path);
 
 #endif

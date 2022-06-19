@@ -14,18 +14,51 @@ int close_btn_hook(int keycode, t_so_long *sl)
 	exit(EXIT_FAILURE);
 }
 
-void sl_init(t_so_long *sl)
+void sl_init(t_so_long *sl, char *file_path)
 {
 	ft_bzero(sl, sizeof(t_so_long));
 	view_init(sl);
 	imgs_init(sl);
-	game_init(sl);
+	game_init(sl, file_path);
 }
 
-void game_init(t_so_long *sl) // TODO: MAP作成処理
+void line_to_map(t_so_long *sl, char *line)
 {
-	sl->gm.width = 4; // MAPから取得
-	sl->gm.height = 5;
+	(void)sl;
+	printf("%s\n", line);
+}
+
+void map_init(t_so_long *sl, char *file_path)
+{
+	int fd;
+	char *line;
+	int ret;
+
+	fd = open(file_path, O_RDONLY);
+	if (fd <= 0)
+		put_exit_err(ERR_FILE);
+	ret = get_next_line(fd, &line);
+	line_to_map(sl, line);
+	sl->gm.height++;
+	sl->gm.width = ft_strlen(line);
+	free(line);
+	while (ret > 0)
+	{
+		ret = get_next_line(fd, &line);
+		line_to_map(sl, line);
+		sl->gm.height++;
+		if (ret <= 0)
+			break;
+		if (sl->gm.width != (int)ft_strlen(line))
+			put_exit_err(ERR_FILE);
+		free(line);
+	}
+	free(line);
+}
+
+void game_init(t_so_long *sl, char *file_path) // TODO: MAP作成処理
+{
+	map_init(sl, file_path);
 	sl->gm.item_sum = 1;
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
@@ -214,7 +247,7 @@ void input_check(int argc, char **argv)
 	if (argc != 2)
 		put_exit_err(ERR_ARG);
 	len = ft_strlen(argv[1]);
-	if (len <= 4 || ft_strncmp(&argv[1][len - 4], ".ber", 5))
+	if (len <= 4 && ft_strncmp(&argv[1][len - 4], ".ber", 5))
 		put_exit_err(ERR_ARG);
 }
 
@@ -226,7 +259,7 @@ int main(int argc, char **argv)
 	t_so_long sl;
 
 	input_check(argc, argv);
-	sl_init(&sl);
+	sl_init(&sl, argv[1]);
 	mlx_hook(sl.win, 33, 1L << 17, close_btn_hook, &sl);
 	mlx_hook(sl.win, KeyPress, KeyPressMask, key_press_hook, &sl);
 	mlx_loop_hook(sl.mlx, main_loop, &sl);
