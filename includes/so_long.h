@@ -10,8 +10,8 @@
 #include <stdio.h>
 
 #define TITLE "SO_LONG"
-#define WIDTH 600
-#define HEIGHT 480
+#define WIDTH 1200
+#define HEIGHT 960
 
 #define KEY_ESC 65307
 #define KEY_LEFT_ARROW 65361
@@ -54,10 +54,25 @@ typedef struct s_player
 	int get_item;
 } t_player;
 
+typedef struct s_vec2
+{
+	int x;
+	int y;
+} t_vec2;
+
+char g_map[5][4] = {
+	"1111",
+	"1E01",
+	"1001",
+	"1CP1",
+	"1111"};
+
 typedef struct s_game_manager
 {
 	int width;
 	int height;
+	int s_width;
+	int s_height;
 	int **map;
 	int item_sum;
 	size_t back_color;
@@ -77,7 +92,8 @@ typedef struct s_so_long
 } t_so_long;
 
 int create_trgb(int t, int r, int g, int b);
-void my_mlx_pixel_put(t_img *data, int x, int y, int color);
+void my_mlx_pixel_put(t_img *img, int x, int y, int color);
+size_t pic_color(t_img img, int i, int j);
 
 size_t ft_strlen(char *str);
 void put_exit_err(int type);

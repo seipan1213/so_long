@@ -14,31 +14,15 @@ void sl_init(t_so_long *sl)
 	game_init(sl);
 }
 
-void game_init(t_so_long *sl)
+void game_init(t_so_long *sl) // TODO: MAP作成処理
 {
-	int i;
-	int j;
-
-	sl->gm.width = 10;
-	sl->gm.height = 8;
+	sl->gm.width = 4;
+	sl->gm.height = 5;
 	sl->gm.item_sum = 0;
+	sl->gm.s_width = WIDTH / sl->gm.width;
+	sl->gm.s_height = HEIGHT / sl->gm.height;
 	sl->gm.back_color = create_trgb(0, 24, 235, 249); // TODO: 定数
-	return;											  // TODO: MAP作成処理
-	sl->gm.map = (int **)malloc(sizeof(int *) * sl->gm.height);
-	i = 0;
-	while (i < sl->gm.height)
-	{
-		sl->gm.map[i] = (int *)malloc(sizeof(int) * sl->gm.width);
-		j = 0;
-		while (j < sl->gm.width)
-		{
-			sl->gm.map[i][j] = 1;
-			j++;
-			if (sl->gm.map[i][j] == 1)
-				sl->gm.item_sum++;
-		}
-		i++;
-	}
+	return;
 }
 
 void view_init(t_so_long *sl)
@@ -75,7 +59,7 @@ void read_img(t_so_long *sl, t_img *img, char *path)
 								  &img->llen, &img->endian);
 }
 
-void game_update(t_so_long *sl)
+void draw_back(t_so_long *sl)
 {
 	int x;
 	int y;
@@ -91,6 +75,68 @@ void game_update(t_so_long *sl)
 		}
 		y++;
 	}
+}
+
+void draw_img(t_so_long *sl, t_img *img, int s_x, int s_y)
+{
+	int y;
+	int x;
+	size_t color;
+	size_t ignore_color;
+
+	y = 0;
+	ignore_color = pic_color(*img, 0, 0);
+	while (y < sl->gm.s_height)
+	{
+		x = 0;
+		while (x < sl->gm.s_width)
+		{
+			color = pic_color(*img, x * (img->width / (double)sl->gm.s_width), y * (img->height / (double)sl->gm.s_height));
+			if (color != ignore_color)
+				my_mlx_pixel_put(&sl->win_img, x + s_x, y + s_y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
+void draw_select_img(t_so_long *sl, int map_x, int map_y)
+{
+	char key;
+
+	key = g_map[map_y][map_x];
+	if (key == '1')
+		draw_img(sl, &sl->wall_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
+	else if (key == 'C')
+		draw_img(sl, &sl->item_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
+	else if (key == 'E')
+		draw_img(sl, &sl->goal_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
+	else if (key == 'P')
+		draw_img(sl, &sl->player_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
+}
+
+void draw_imgs(t_so_long *sl)
+{
+	int map_x;
+	int map_y;
+
+	map_y = 0;
+	while (map_y < sl->gm.height)
+	{
+		map_x = 0;
+		while (map_x < sl->gm.width)
+		{
+			draw_select_img(sl, map_x, map_y);
+			map_x++;
+		}
+		map_y++;
+	}
+}
+
+void game_update(t_so_long *sl)
+{
+	draw_back(sl);
+	draw_imgs(sl);
 }
 
 int main_loop(t_so_long *sl)
