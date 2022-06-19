@@ -27,7 +27,6 @@ void ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(n / 10, fd);
 	c = n % 10 + '0';
 	write(fd, &c, 1);
-	write(fd, "\n", 1);
 }
 
 void put_exit_err(int type)

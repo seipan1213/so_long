@@ -189,6 +189,7 @@ void player_move(t_so_long *sl, int vec_type)
 	sl->gm.pl.x = next_px;
 	sl->gm.pl.y = next_py;
 	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 int key_press_hook(int keycode, t_so_long *sl)
