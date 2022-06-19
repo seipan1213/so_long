@@ -68,13 +68,6 @@ typedef struct s_vec2
 	int y;
 } t_vec2;
 
-char g_map[5][4] = {
-	"1111",
-	"1E01",
-	"1001",
-	"1CP1",
-	"1111"};
-
 typedef struct s_game_manager
 {
 	int width;
@@ -83,6 +76,7 @@ typedef struct s_game_manager
 	int s_height;
 	int **map;
 	int item_sum;
+	int move_cnt;
 	size_t back_color;
 	t_player pl;
 } t_game_manager;
@@ -105,6 +99,8 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 size_t pic_color(t_img img, int i, int j);
 
 size_t ft_strlen(char *str);
+void ft_bzero(void *s, size_t len);
+void ft_putnbr_fd(int n, int fd);
 void put_exit_err(int type);
 
 int close_btn_hook(int keycode, t_so_long *sl);

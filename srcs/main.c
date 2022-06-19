@@ -1,5 +1,12 @@
 #include "so_long.h"
 
+char g_map[5][4] = {
+	"1111",
+	"1E01",
+	"1001",
+	"1CP1",
+	"1111"};
+
 int close_btn_hook(int keycode, t_so_long *sl)
 {
 	(void)sl;
@@ -9,6 +16,7 @@ int close_btn_hook(int keycode, t_so_long *sl)
 
 void sl_init(t_so_long *sl)
 {
+	ft_bzero(sl, sizeof(t_so_long));
 	view_init(sl);
 	imgs_init(sl);
 	game_init(sl);
@@ -16,9 +24,9 @@ void sl_init(t_so_long *sl)
 
 void game_init(t_so_long *sl) // TODO: MAP作成処理
 {
-	sl->gm.width = 4;
+	sl->gm.width = 4; // MAPから取得
 	sl->gm.height = 5;
-	sl->gm.item_sum = 0;
+	sl->gm.item_sum = 1;
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
 	sl->gm.back_color = create_trgb(0, 24, 235, 249); // TODO: 定数
@@ -149,6 +157,12 @@ int main_loop(t_so_long *sl)
 	return (0);
 }
 
+void game_clear()
+{
+	write(STDOUT_FILENO, "CLEAR\n", 6); //不要の可能性
+	exit(EXIT_SUCCESS);
+}
+
 void player_move(t_so_long *sl, int vec_type)
 {
 	int next_px;
@@ -164,10 +178,17 @@ void player_move(t_so_long *sl, int vec_type)
 		next_px++;
 	else if (vec_type == LEFT)
 		next_px--;
+	if (g_map[next_py][next_px] == 'E' && sl->gm.item_sum == sl->gm.pl.get_item)
+		game_clear();
+	if (g_map[next_py][next_px] != '0' && g_map[next_py][next_px] != 'C')
+		return;
+	if (g_map[next_py][next_px] == 'C')
+		sl->gm.pl.get_item++;
 	g_map[next_py][next_px] = 'P';
 	g_map[sl->gm.pl.y][sl->gm.pl.x] = '0';
 	sl->gm.pl.x = next_px;
 	sl->gm.pl.y = next_py;
+	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
 }
 
 int key_press_hook(int keycode, t_so_long *sl)
