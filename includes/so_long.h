@@ -23,10 +23,10 @@
 #define MALLOC_ERROR "MALLOC Error"
 #define MAP_ERROR "Error"
 #define MLX_ERROR "MLX Error"
+#define ARG_ERR "ARG Error"
 
 #define PLAYER_PATH "img/player.xpm"
 #define ITEM_PATH "img/item.xpm"
-#define START_PATH "img/start.xpm"
 #define GOAL_PATH "img/goal.xpm"
 #define WALL_PATH "img/wall.xpm"
 
@@ -34,7 +34,8 @@ typedef enum e_err_type
 {
 	ERR_MALLOC,
 	ERR_MAP,
-	ERR_MLX
+	ERR_MLX,
+	ERR_ARG
 } t_err_type;
 
 typedef enum e_vec_type
@@ -44,6 +45,15 @@ typedef enum e_vec_type
 	RIGHT,
 	LEFT
 } t_vec_type;
+
+typedef enum e_map_type
+{
+	SP,
+	WALL,
+	PL,
+	GOAL,
+	ITEM
+} t_map_type;
 
 typedef struct s_img
 {
@@ -90,7 +100,6 @@ typedef struct s_so_long
 	t_img wall_img;
 	t_img player_img;
 	t_img goal_img;
-	t_img start_img;
 	t_img item_img;
 	t_game_manager gm;
 } t_so_long;

@@ -3,11 +3,12 @@
 void put_exit_err(int type)
 {
 	if (type == ERR_MALLOC)
-		write(STDERR_FILENO, MALLOC_ERROR, ft_strlen(MALLOC_ERROR));
+		ft_putendl_fd(MALLOC_ERROR, STDERR_FILENO);
 	else if (type == ERR_MAP)
-		write(STDERR_FILENO, MAP_ERROR, ft_strlen(MAP_ERROR));
+		ft_putendl_fd(MAP_ERROR, STDERR_FILENO);
 	else if (type == ERR_MLX)
-		write(STDERR_FILENO, MLX_ERROR, ft_strlen(MLX_ERROR));
-	write(STDERR_FILENO, "\n", 1);
+		ft_putendl_fd(MLX_ERROR, STDERR_FILENO);
+	else if (type == ERR_ARG)
+		ft_putendl_fd(ARG_ERR, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }

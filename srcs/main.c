@@ -55,7 +55,6 @@ void imgs_init(t_so_long *sl)
 {
 	read_img(sl, &sl->player_img, PLAYER_PATH);
 	read_img(sl, &sl->goal_img, GOAL_PATH);
-	read_img(sl, &sl->start_img, START_PATH);
 	read_img(sl, &sl->wall_img, WALL_PATH);
 	read_img(sl, &sl->item_img, ITEM_PATH);
 }
@@ -159,7 +158,7 @@ int main_loop(t_so_long *sl)
 
 void game_clear()
 {
-	write(STDOUT_FILENO, "CLEAR\n", 6); //不要の可能性
+	ft_putendl_fd("CLEAR", STDOUT_FILENO);
 	exit(EXIT_SUCCESS);
 }
 
@@ -189,7 +188,7 @@ void player_move(t_so_long *sl, int vec_type)
 	sl->gm.pl.x = next_px;
 	sl->gm.pl.y = next_py;
 	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
-	write(STDOUT_FILENO, "\n", 1);
+	ft_putendl_fd("", STDOUT_FILENO);
 }
 
 int key_press_hook(int keycode, t_so_long *sl)
@@ -208,6 +207,17 @@ int key_press_hook(int keycode, t_so_long *sl)
 	return (0);
 }
 
+void input_check(int argc, char **argv)
+{
+	size_t len;
+
+	if (argc != 2)
+		put_exit_err(ERR_ARG);
+	len = ft_strlen(argv[1]);
+	if (len <= 4 || ft_strncmp(&argv[1][len - 4], ".ber", 5))
+		put_exit_err(ERR_ARG);
+}
+
 int main(int argc, char **argv)
 {
 	(void)argc;
@@ -215,6 +225,7 @@ int main(int argc, char **argv)
 
 	t_so_long sl;
 
+	input_check(argc, argv);
 	sl_init(&sl);
 	mlx_hook(sl.win, 33, 1L << 17, close_btn_hook, &sl);
 	mlx_hook(sl.win, KeyPress, KeyPressMask, key_press_hook, &sl);
