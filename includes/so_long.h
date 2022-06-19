@@ -36,6 +36,14 @@ typedef enum e_err_type
 	ERR_MLX
 } t_err_type;
 
+typedef enum e_vec_type
+{
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
+} t_vec_type;
+
 typedef struct s_img
 {
 	void *img;
@@ -76,6 +84,7 @@ typedef struct s_game_manager
 	int **map;
 	int item_sum;
 	size_t back_color;
+	t_player pl;
 } t_game_manager;
 
 typedef struct s_so_long

@@ -22,6 +22,8 @@ void game_init(t_so_long *sl) // TODO: MAP作成処理
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
 	sl->gm.back_color = create_trgb(0, 24, 235, 249); // TODO: 定数
+	sl->gm.pl.x = 2;								  // TODO: MAPから取得
+	sl->gm.pl.y = 3;
 	return;
 }
 
@@ -147,11 +149,40 @@ int main_loop(t_so_long *sl)
 	return (0);
 }
 
+void player_move(t_so_long *sl, int vec_type)
+{
+	int next_px;
+	int next_py;
+
+	next_px = sl->gm.pl.x;
+	next_py = sl->gm.pl.y;
+	if (vec_type == UP)
+		next_py--;
+	else if (vec_type == DOWN)
+		next_py++;
+	else if (vec_type == RIGHT)
+		next_px++;
+	else if (vec_type == LEFT)
+		next_px--;
+	g_map[next_py][next_px] = 'P';
+	g_map[sl->gm.pl.y][sl->gm.pl.x] = '0';
+	sl->gm.pl.x = next_px;
+	sl->gm.pl.y = next_py;
+}
+
 int key_press_hook(int keycode, t_so_long *sl)
 {
 	(void)sl;
 	if (keycode == KEY_ESC) // NOTE: WSLだと一度目のESCは認識されない（別の何かに吸われてる？)
 		exit(EXIT_SUCCESS);
+	else if (keycode == KEY_UP_ARROW)
+		player_move(sl, UP); // TODO: mapを格納
+	else if (keycode == KEY_DOWN_ARROW)
+		player_move(sl, DOWN);
+	else if (keycode == KEY_RIGHT_ARROW)
+		player_move(sl, RIGHT);
+	else if (keycode == KEY_LEFT_ARROW)
+		player_move(sl, LEFT);
 	return (0);
 }
 
