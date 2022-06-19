@@ -2,6 +2,7 @@
 #define SO_LONG_H
 
 #include "../minilibx-linux/mlx.h"
+#include "libft.h"
 #include <X11/X.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -98,9 +99,6 @@ int create_trgb(int t, int r, int g, int b);
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 size_t pic_color(t_img img, int i, int j);
 
-size_t ft_strlen(char *str);
-void ft_bzero(void *s, size_t len);
-void ft_putnbr_fd(int n, int fd);
 void put_exit_err(int type);
 
 int close_btn_hook(int keycode, t_so_long *sl);
