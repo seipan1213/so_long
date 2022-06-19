@@ -42,4 +42,6 @@ ${MLX_PATH}:
 	git clone https://github.com/42Paris/minilibx-linux.git ${MLX_PATH}
 	make -C ${MLX_PATH}
 
+-include $(DEPS)
+
 .PHONY: all clean fclean re
