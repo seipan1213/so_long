@@ -94,6 +94,13 @@ typedef struct s_game_manager
 	t_player pl;
 } t_game_manager;
 
+typedef struct s_dc_lst
+{
+	char *value;
+	struct s_dc_lst *next;
+	struct s_dc_lst *prev;
+} t_dc_lst;
+
 typedef struct s_so_long
 {
 	void *mlx;
@@ -111,6 +118,7 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 size_t pic_color(t_img img, int i, int j);
 
 void put_exit_err(int type);
+int map_type(char c);
 
 int close_btn_hook(int keycode, t_so_long *sl);
 void sl_init(t_so_long *sl, char *file_path);
@@ -120,5 +128,13 @@ void read_img(t_so_long *sl, t_img *img, char *path);
 int main_loop(t_so_long *sl);
 int key_press_hook(int keycode, t_so_long *sl);
 void game_init(t_so_long *sl, char *file_path);
+
+void dc_lst_addfront(t_dc_lst *lst, char *value);
+void dc_lst_addback(t_dc_lst *lst, char *value);
+t_dc_lst *dc_lst_init(void);
+int get_lst_size(t_dc_lst *lst);
+void clear_lst(t_dc_lst *lst);
+void delete_lst(t_dc_lst *lst);
+t_dc_lst *get_first_lst(t_dc_lst *lst);
 
 #endif

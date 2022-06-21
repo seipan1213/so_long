@@ -1,12 +1,5 @@
 #include "so_long.h"
 
-char g_map[5][4] = {
-	"1111",
-	"1E01",
-	"1001",
-	"1CP1",
-	"1111"};
-
 int close_btn_hook(int keycode, t_so_long *sl)
 {
 	(void)sl;
@@ -25,46 +18,92 @@ void sl_init(t_so_long *sl, char *file_path)
 void line_to_map(t_so_long *sl, char *line)
 {
 	(void)sl;
-	printf("%s\n", line);
+	(void)line;
 }
 
-void map_init(t_so_long *sl, char *file_path)
+t_dc_lst *read_map(char *file_path)
 {
 	int fd;
 	char *line;
 	int ret;
+	t_dc_lst *map;
+	int width;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd <= 0)
 		put_exit_err(ERR_FILE);
+	map = dc_lst_init();
 	ret = get_next_line(fd, &line);
-	line_to_map(sl, line);
-	sl->gm.height++;
-	sl->gm.width = ft_strlen(line);
-	free(line);
+	dc_lst_addback(map, line);
+	width = ft_strlen(line);
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
-		line_to_map(sl, line);
-		sl->gm.height++;
 		if (ret <= 0)
 			break;
-		if (sl->gm.width != (int)ft_strlen(line))
+		dc_lst_addback(map, line);
+		if (width != (int)ft_strlen(line))
 			put_exit_err(ERR_FILE);
-		free(line);
 	}
 	free(line);
+	return (map);
 }
 
-void game_init(t_so_long *sl, char *file_path) // TODO: MAP作成処理
+void set_type(t_so_long *sl, int type, int x, int y)
+{
+	if (type == PL)
+	{
+		sl->gm.pl.x = x;
+		sl->gm.pl.y = y;
+	}
+	else if (type == ITEM)
+		sl->gm.item_sum++;
+}
+
+void conv_map(t_so_long *sl, t_dc_lst *map)
+{
+	int y;
+	int x;
+
+	sl->gm.map = malloc(sizeof(int *) * sl->gm.height);
+	if (sl->gm.map == NULL)
+		put_exit_err(ERR_MALLOC);
+	map = get_first_lst(map);
+	y = -1;
+	while (++y < sl->gm.height)
+	{
+		sl->gm.map[y] = malloc(sizeof(int) * sl->gm.width);
+		if (sl->gm.map[y] == NULL)
+			put_exit_err(ERR_MALLOC);
+		x = -1;
+		while (++x < sl->gm.width)
+		{
+			set_type(sl, map_type(map->value[x]), x, y);
+			sl->gm.map[y][x] = map_type(map->value[x]);
+		}
+		map = map->next;
+	}
+}
+
+void map_init(t_so_long *sl, char *file_path)
+{
+	t_dc_lst *map;
+
+	map = read_map(file_path);
+	sl->gm.height = get_lst_size(map);
+	sl->gm.width = ft_strlen(get_first_lst(map)->value);
+	sl->gm.item_sum = 0;
+	sl->gm.pl.x = -1;
+	conv_map(sl, map);
+	clear_lst(map);
+}
+
+void game_init(t_so_long *sl, char *file_path)
 {
 	map_init(sl, file_path);
-	sl->gm.item_sum = 1;
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
 	sl->gm.back_color = create_trgb(0, 24, 235, 249); // TODO: 定数
-	sl->gm.pl.x = 2;								  // TODO: MAPから取得
-	sl->gm.pl.y = 3;
 	return;
 }
 
@@ -144,16 +183,16 @@ void draw_img(t_so_long *sl, t_img *img, int s_x, int s_y)
 
 void draw_select_img(t_so_long *sl, int map_x, int map_y)
 {
-	char key;
+	int key;
 
-	key = g_map[map_y][map_x];
-	if (key == '1')
+	key = sl->gm.map[map_y][map_x];
+	if (key == WALL)
 		draw_img(sl, &sl->wall_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
-	else if (key == 'C')
+	else if (key == ITEM)
 		draw_img(sl, &sl->item_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
-	else if (key == 'E')
+	else if (key == GOAL)
 		draw_img(sl, &sl->goal_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
-	else if (key == 'P')
+	else if (key == PL)
 		draw_img(sl, &sl->player_img, map_x * sl->gm.s_width, map_y * sl->gm.s_height);
 }
 
@@ -210,14 +249,14 @@ void player_move(t_so_long *sl, int vec_type)
 		next_px++;
 	else if (vec_type == LEFT)
 		next_px--;
-	if (g_map[next_py][next_px] == 'E' && sl->gm.item_sum == sl->gm.pl.get_item)
+	if (sl->gm.map[next_py][next_px] == GOAL && sl->gm.item_sum == sl->gm.pl.get_item)
 		game_clear();
-	if (g_map[next_py][next_px] != '0' && g_map[next_py][next_px] != 'C')
+	if (sl->gm.map[next_py][next_px] != SP && sl->gm.map[next_py][next_px] != ITEM)
 		return;
-	if (g_map[next_py][next_px] == 'C')
+	if (sl->gm.map[next_py][next_px] == ITEM)
 		sl->gm.pl.get_item++;
-	g_map[next_py][next_px] = 'P';
-	g_map[sl->gm.pl.y][sl->gm.pl.x] = '0';
+	sl->gm.map[next_py][next_px] = PL;
+	sl->gm.map[sl->gm.pl.y][sl->gm.pl.x] = SP;
 	sl->gm.pl.x = next_px;
 	sl->gm.pl.y = next_py;
 	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
@@ -230,7 +269,7 @@ int key_press_hook(int keycode, t_so_long *sl)
 	if (keycode == KEY_ESC) // NOTE: WSLだと一度目のESCは認識されない（別の何かに吸われてる？)
 		exit(EXIT_SUCCESS);
 	else if (keycode == KEY_UP_ARROW)
-		player_move(sl, UP); // TODO: mapを格納
+		player_move(sl, UP);
 	else if (keycode == KEY_DOWN_ARROW)
 		player_move(sl, DOWN);
 	else if (keycode == KEY_RIGHT_ARROW)

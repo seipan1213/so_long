@@ -14,3 +14,18 @@ void put_exit_err(int type)
 		ft_putendl_fd(FILE_ERR, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
+
+int map_type(char c)
+{
+	if (c == '0')
+		return (SP);
+	else if (c == '1')
+		return (WALL);
+	else if (c == 'E')
+		return (GOAL);
+	else if (c == 'C')
+		return (ITEM);
+	else if (c == 'P')
+		return (PL);
+	return (-1);
+}
