@@ -39,6 +39,9 @@ fclean: clean
 
 re: fclean all
 
+debug: CFLAGS += -g -fsanitize=address
+debug: re
+
 ${MLX_PATH}:
 	git clone https://github.com/42Paris/minilibx-linux.git ${MLX_PATH}
 	make -C ${MLX_PATH}

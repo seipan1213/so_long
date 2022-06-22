@@ -12,7 +12,7 @@
 
 #define TITLE "SO_LONG"
 #define WIDTH 1200
-#define HEIGHT 960
+#define HEIGHT 800
 
 #define KEY_ESC 65307
 #define KEY_LEFT_ARROW 65361

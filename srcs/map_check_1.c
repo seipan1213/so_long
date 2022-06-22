@@ -83,8 +83,8 @@ void is_close_map(t_so_long *sl)
 			put_exit_err(ERR_MALLOC);
 		i++;
 	}
-	p.first = sl->gm.pl.x;
-	p.second = sl->gm.pl.y;
+	p.first = sl->gm.pl.y;
+	p.second = sl->gm.pl.x;
 	map_bfs(sl, map, p);
 	while (i-- > 0)
 		free(map[i]);
