@@ -23,7 +23,7 @@ void check_map(t_so_long *sl)
 			else if (sl->gm.map[y][x] == ITEM)
 				item++;
 	}
-	if (goal != 1 || pl != 1)
+	if (goal != 1 || pl != 1 || y >= x)
 		put_exit_err(ERR_FILE);
 	is_close_map(sl);
 }
