@@ -12,9 +12,3 @@ void game_update(t_so_long *sl)
 	draw_back(sl);
 	draw_imgs(sl);
 }
-
-void game_clear()
-{
-	ft_putendl_fd(CLEAR_TEXT, STDOUT_FILENO);
-	exit(EXIT_SUCCESS);
-}

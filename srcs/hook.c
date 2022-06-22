@@ -38,7 +38,7 @@ void player_move(t_so_long *sl, int vec_type)
 	else if (vec_type == LEFT)
 		next_px--;
 	if (sl->gm.map[next_py][next_px] == GOAL && sl->gm.item_sum == sl->gm.pl.get_item)
-		game_clear();
+		game_clear(sl);
 	if (sl->gm.map[next_py][next_px] != SP && sl->gm.map[next_py][next_px] != ITEM)
 		return;
 	if (sl->gm.map[next_py][next_px] == ITEM)
@@ -49,4 +49,12 @@ void player_move(t_so_long *sl, int vec_type)
 	sl->gm.pl.y = next_py;
 	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
 	ft_putendl_fd("", STDOUT_FILENO);
+}
+
+void game_clear(t_so_long *sl)
+{
+	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
+	ft_putendl_fd("", STDOUT_FILENO);
+	ft_putendl_fd(CLEAR_TEXT, STDOUT_FILENO);
+	exit(EXIT_SUCCESS);
 }

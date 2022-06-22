@@ -134,6 +134,7 @@ t_dc_lst *read_map(char *file_path);
 int close_btn_hook(int keycode, t_so_long *sl);
 int key_press_hook(int keycode, t_so_long *sl);
 void player_move(t_so_long *sl, int vec_type);
+void game_clear(t_so_long *sl);
 
 void sl_init(t_so_long *sl, char *file_path);
 void game_init(t_so_long *sl, char *file_path);
@@ -168,7 +169,6 @@ size_t pic_color(t_img img, int x, int y);
 
 int update(t_so_long *sl);
 void game_update(t_so_long *sl);
-void game_clear();
 
 void put_exit_err(int type);
 t_ipair *make_ipair(int i, int j);
