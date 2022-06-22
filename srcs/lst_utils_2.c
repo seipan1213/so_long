@@ -24,5 +24,6 @@ void delete_lst(t_dc_lst *lst)
 	next = lst->next;
 	prev->next = next;
 	next->prev = prev;
+	free(lst->value);
 	free(lst);
 }

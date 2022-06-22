@@ -51,6 +51,8 @@ int get_lst_size(t_dc_lst *lst)
 	int i;
 
 	i = 0;
+	while (lst->value != NULL)
+		lst = lst->next;
 	lst = lst->next;
 	while (lst->value != NULL)
 	{
