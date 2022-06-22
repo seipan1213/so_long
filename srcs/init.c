@@ -16,7 +16,7 @@ void game_init(t_so_long *sl, char *file_path)
 	map_init(sl, file_path);
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
-	sl->gm.back_color = create_trgb(0, 24, 235, 249);
+	sl->gm.back_color = create_trgb(0, 62, 204, 96);
 	return;
 }
 
