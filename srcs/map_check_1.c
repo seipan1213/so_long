@@ -24,11 +24,11 @@ void check_map(t_so_long *sl)
 				item++;
 	}
 	if (goal != 1 || pl != 1 || item <= 0)
-		put_exit_err(ERR_FILE);
+		put_exit_err(ERR_MAP_MISSING);
 	is_close_map(sl);
 }
 
-void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum)
+void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum) // TODO: ゴール探索
 {
 	const int dx[4] = {0, 1, 0, -1};
 	const int dy[4] = {1, 0, -1, 0};
@@ -41,7 +41,7 @@ void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum)
 	ft_lstdel_front(lst);
 	c = -1;
 	if (is_edge(sl, p))
-		put_exit_err(ERR_FILE);
+		put_exit_err(ERR_MAP_NOT_ENCLOSED);
 	while (++c < 4)
 		if (sl->gm.map[p.first + dx[c]][p.second + dy[c]] != WALL && map[p.first + dx[c]][p.second + dy[c]] == 0)
 		{
@@ -63,7 +63,7 @@ void map_bfs(t_so_long *sl, int **map, t_ipair p)
 		bfs_utils(sl, map, lst, &item_sum);
 	bfs_clear(lst);
 	if (item_sum != sl->gm.item_sum)
-		put_exit_err(ERR_FILE);
+		put_exit_err(ERR_MAP_CANT_FINISH);
 }
 
 void is_close_map(t_so_long *sl)

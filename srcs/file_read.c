@@ -4,7 +4,7 @@ void read_img(t_so_long *sl, t_img *img, char *path)
 {
 	img->img = mlx_xpm_file_to_image(sl->mlx, path, &img->width, &img->height);
 	if (!img->img)
-		put_exit_err(ERR_MALLOC);
+		put_exit_err(ERR_MLX);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp,
 								  &img->llen, &img->endian);
 }
@@ -31,7 +31,7 @@ t_dc_lst *read_map(char *file_path)
 			break;
 		dc_lst_addback(map, line);
 		if (width != (int)ft_strlen(line))
-			put_exit_err(ERR_FILE);
+			put_exit_err(ERR_MAP_NOT_RECT);
 	}
 	free(line);
 	return (map);

@@ -22,11 +22,15 @@
 
 #define CLEAR_TEXT "CLEAR"
 
-#define MALLOC_ERROR "MALLOC Error"
-#define MAP_ERROR "Error"
-#define MLX_ERROR "MLX Error"
-#define ARG_ERR "ARG Error"
-#define FILE_ERR "FILE Error"
+#define MALLOC_ERROR "Error\nMalloc failed"
+#define MLX_ERROR "Error\nMlx failed"
+#define ARG_ERR "Error\nInvalid arguments"
+#define FILE_ERR "Error\nInvalid file"
+#define MAP_NOT_RECT_ERR "Error\nMap: not rectangular"
+#define MAP_MISSING_ERR "Error\nMap: E or C or P are missing"
+#define MAP_NOT_ENCLOSED_ERR "Error\nMap: not enclosed by wall"
+#define MAP_UN_KNOW_CHAR_ERR "Error\nMap: unknown character"
+#define MAP_CANT_FINISH_ERR "Error\nMap: cant finish"
 
 #define PLAYER_PATH "img/player.xpm"
 #define ITEM_PATH "img/item.xpm"
@@ -36,10 +40,14 @@
 typedef enum e_err_type
 {
 	ERR_MALLOC,
-	ERR_MAP,
 	ERR_MLX,
 	ERR_ARG,
-	ERR_FILE
+	ERR_FILE,
+	ERR_MAP_NOT_RECT,
+	ERR_MAP_MISSING,
+	ERR_MAP_NOT_ENCLOSED,
+	ERR_MAP_UN_KNOW_CHAR,
+	ERR_MAP_CANT_FINISH
 } t_err_type;
 
 typedef enum e_vec_type

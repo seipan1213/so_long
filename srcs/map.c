@@ -32,7 +32,7 @@ void conv_map(t_so_long *sl, t_dc_lst *map)
 		{
 			type = map_type(map->value[x]);
 			if (type == -1)
-				put_exit_err(ERR_FILE);
+				put_exit_err(ERR_MAP_UN_KNOW_CHAR);
 			set_type(sl, type, x, y);
 			sl->gm.map[y][x] = map_type(map->value[x]);
 		}

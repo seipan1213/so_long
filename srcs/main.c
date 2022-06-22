@@ -8,7 +8,7 @@ void input_check(int argc, char **argv)
 		put_exit_err(ERR_ARG);
 	len = ft_strlen(argv[1]);
 	if (len <= 4 && ft_strncmp(&argv[1][len - 4], ".ber", 5))
-		put_exit_err(ERR_ARG);
+		put_exit_err(ERR_FILE);
 }
 
 int main(int argc, char **argv)
