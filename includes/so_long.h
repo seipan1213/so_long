@@ -36,6 +36,7 @@
 #define ITEM_PATH "img/item.xpm"
 #define GOAL_PATH "img/goal.xpm"
 #define WALL_PATH "img/wall.xpm"
+#define BACK_PATH "img/back.xpm"
 
 typedef enum e_err_type
 {
@@ -117,6 +118,7 @@ typedef struct s_so_long
 	void *win;
 	t_img win_img;
 	t_img wall_img;
+	t_img back_img;
 	t_img player_img;
 	t_img goal_img;
 	t_img item_img;
@@ -124,7 +126,7 @@ typedef struct s_so_long
 } t_so_long;
 
 void draw_back(t_so_long *sl);
-void draw_img(t_so_long *sl, t_img *img, int s_x, int s_y);
+void draw_img(t_so_long *sl, t_img *img, t_ipair p, bool is_ignore);
 void draw_select_img(t_so_long *sl, int map_x, int map_y);
 void draw_imgs(t_so_long *sl);
 
