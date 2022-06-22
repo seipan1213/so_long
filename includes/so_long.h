@@ -15,10 +15,10 @@
 #define HEIGHT 800
 
 #define KEY_ESC 65307
-#define KEY_LEFT_ARROW 65361
-#define KEY_UP_ARROW 65362
-#define KEY_RIGHT_ARROW 65363
-#define KEY_DOWN_ARROW 65364
+#define KEY_A 97
+#define KEY_W 119
+#define KEY_D 100
+#define KEY_S 115
 
 #define CLEAR_TEXT "CLEAR"
 

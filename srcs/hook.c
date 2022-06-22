@@ -9,15 +9,15 @@ int close_btn_hook(int keycode, t_so_long *sl)
 
 int key_press_hook(int keycode, t_so_long *sl)
 {
-	if (keycode == KEY_ESC) // NOTE: WSLだと一度目のESCは認識されない（別の何かに吸われてる？)
+	if (keycode == KEY_ESC)
 		exit(EXIT_SUCCESS);
-	else if (keycode == KEY_UP_ARROW)
+	else if (keycode == KEY_W)
 		player_move(sl, UP);
-	else if (keycode == KEY_DOWN_ARROW)
+	else if (keycode == KEY_S)
 		player_move(sl, DOWN);
-	else if (keycode == KEY_RIGHT_ARROW)
+	else if (keycode == KEY_D)
 		player_move(sl, RIGHT);
-	else if (keycode == KEY_LEFT_ARROW)
+	else if (keycode == KEY_A)
 		player_move(sl, LEFT);
 	return (0);
 }
