@@ -115,33 +115,53 @@ typedef struct s_so_long
 	t_game_manager gm;
 } t_so_long;
 
-int create_trgb(int t, int r, int g, int b);
-void my_mlx_pixel_put(t_img *img, int x, int y, int color);
-size_t pic_color(t_img img, int i, int j);
+void draw_back(t_so_long *sl);
+void draw_img(t_so_long *sl, t_img *img, int s_x, int s_y);
+void draw_select_img(t_so_long *sl, int map_x, int map_y);
+void draw_imgs(t_so_long *sl);
 
-void put_exit_err(int type);
-int map_type(char c);
-t_ipair *make_ipair(int i, int j);
+void read_img(t_so_long *sl, t_img *img, char *path);
+t_dc_lst *read_map(char *file_path);
 
 int close_btn_hook(int keycode, t_so_long *sl);
+int key_press_hook(int keycode, t_so_long *sl);
+void player_move(t_so_long *sl, int vec_type);
+
 void sl_init(t_so_long *sl, char *file_path);
+void game_init(t_so_long *sl, char *file_path);
+void map_init(t_so_long *sl, char *file_path);
 void view_init(t_so_long *sl);
 void imgs_init(t_so_long *sl);
-void read_img(t_so_long *sl, t_img *img, char *path);
-int update(t_so_long *sl);
-int key_press_hook(int keycode, t_so_long *sl);
-void game_init(t_so_long *sl, char *file_path);
-
-void bfs_clear(t_list **lst);
-void map_bfs(t_so_long *sl, int **map, t_ipair p);
-void is_close_map(t_so_long *sl);
 
 void dc_lst_addfront(t_dc_lst *lst, char *value);
 void dc_lst_addback(t_dc_lst *lst, char *value);
 t_dc_lst *dc_lst_init(void);
 int get_lst_size(t_dc_lst *lst);
+t_dc_lst *get_first_lst(t_dc_lst *lst);
 void clear_lst(t_dc_lst *lst);
 void delete_lst(t_dc_lst *lst);
-t_dc_lst *get_first_lst(t_dc_lst *lst);
 
+void input_check(int argc, char **argv);
+
+void check_map(t_so_long *sl);
+void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum);
+void map_bfs(t_so_long *sl, int **map, t_ipair p);
+void is_close_map(t_so_long *sl);
+void bfs_clear(t_list **lst);
+bool is_edge(t_so_long *sl, t_ipair p);
+
+void set_type(t_so_long *sl, int type, int x, int y);
+void conv_map(t_so_long *sl, t_dc_lst *map);
+int map_type(char c);
+
+int create_trgb(int t, int r, int g, int b);
+void my_mlx_pixel_put(t_img *img, int x, int y, int color);
+size_t pic_color(t_img img, int x, int y);
+
+int update(t_so_long *sl);
+void game_update(t_so_long *sl);
+void game_clear();
+
+void put_exit_err(int type);
+t_ipair *make_ipair(int i, int j);
 #endif

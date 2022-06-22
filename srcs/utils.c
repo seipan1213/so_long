@@ -15,22 +15,6 @@ void put_exit_err(int type)
 	exit(EXIT_FAILURE);
 }
 
-int map_type(char c)
-{
-	if (c == '0')
-		return (SP);
-	else if (c == '1')
-		return (WALL);
-	else if (c == 'E')
-		return (GOAL);
-	else if (c == 'C')
-		return (ITEM);
-	else if (c == 'P')
-		return (PL);
-	put_exit_err(ERR_FILE);
-	return (-1);
-}
-
 t_ipair *make_ipair(int i, int j)
 {
 	t_ipair *p;

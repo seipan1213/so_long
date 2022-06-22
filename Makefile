@@ -1,7 +1,8 @@
 NAME		=	so_long
 SRCSDIR		=	./srcs
 
-SRCS_NAME	=	main.c mlx_utils.c utils.c lst_utils.c
+SRCS_NAME	=	main.c init.c  hook.c map.c map_check_1.c map_check_2.c\
+				update.c draw.c file_read.c utils.c lst_utils_1.c lst_utils_2.c mlx_utils.c
 SRCS		=	${addprefix ${SRCSDIR}/, ${SRCS_NAME}}
 OBJS		=	${SRCS:.c=.o}
 DEPS		=	${OBJS:%.o=%.d}
