@@ -20,6 +20,8 @@
 #define KEY_RIGHT_ARROW 65363
 #define KEY_DOWN_ARROW 65364
 
+#define CLEAR_TEXT "CLEAR"
+
 #define MALLOC_ERROR "MALLOC Error"
 #define MAP_ERROR "Error"
 #define MLX_ERROR "MLX Error"
@@ -75,11 +77,11 @@ typedef struct s_player
 	int get_item;
 } t_player;
 
-typedef struct s_vec2
+typedef struct s_ipair
 {
-	int x;
-	int y;
-} t_vec2;
+	int first;
+	int second;
+} t_ipair;
 
 typedef struct s_game_manager
 {
@@ -119,15 +121,20 @@ size_t pic_color(t_img img, int i, int j);
 
 void put_exit_err(int type);
 int map_type(char c);
+t_ipair *make_ipair(int i, int j);
 
 int close_btn_hook(int keycode, t_so_long *sl);
 void sl_init(t_so_long *sl, char *file_path);
 void view_init(t_so_long *sl);
 void imgs_init(t_so_long *sl);
 void read_img(t_so_long *sl, t_img *img, char *path);
-int main_loop(t_so_long *sl);
+int update(t_so_long *sl);
 int key_press_hook(int keycode, t_so_long *sl);
 void game_init(t_so_long *sl, char *file_path);
+
+void bfs_clear(t_list **lst);
+void map_bfs(t_so_long *sl, int **map, t_ipair p);
+void is_close_map(t_so_long *sl);
 
 void dc_lst_addfront(t_dc_lst *lst, char *value);
 void dc_lst_addback(t_dc_lst *lst, char *value);

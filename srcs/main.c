@@ -10,9 +10,12 @@ int close_btn_hook(int keycode, t_so_long *sl)
 void sl_init(t_so_long *sl, char *file_path)
 {
 	ft_bzero(sl, sizeof(t_so_long));
-	view_init(sl);
-	imgs_init(sl);
+	sl->mlx = mlx_init();
+	if (!sl->mlx)
+		put_exit_err(ERR_MLX);
 	game_init(sl, file_path);
+	imgs_init(sl);
+	view_init(sl);
 }
 
 void line_to_map(t_so_long *sl, char *line)
@@ -85,6 +88,34 @@ void conv_map(t_so_long *sl, t_dc_lst *map)
 	}
 }
 
+void check_map(t_so_long *sl)
+{
+	int x;
+	int y;
+	int pl;
+	int goal;
+	int item;
+
+	pl = 0;
+	goal = 0;
+	item = 0;
+	y = -1;
+	while (++y < sl->gm.height)
+	{
+		x = -1;
+		while (++x < sl->gm.width)
+			if (sl->gm.map[y][x] == PL)
+				pl++;
+			else if (sl->gm.map[y][x] == GOAL)
+				goal++;
+			else if (sl->gm.map[y][x] == ITEM)
+				item++;
+	}
+	if (goal != 1 || pl != 1)
+		put_exit_err(ERR_FILE);
+	is_close_map(sl);
+}
+
 void map_init(t_so_long *sl, char *file_path)
 {
 	t_dc_lst *map;
@@ -95,6 +126,7 @@ void map_init(t_so_long *sl, char *file_path)
 	sl->gm.item_sum = 0;
 	sl->gm.pl.x = -1;
 	conv_map(sl, map);
+	check_map(sl);
 	clear_lst(map);
 }
 
@@ -103,15 +135,12 @@ void game_init(t_so_long *sl, char *file_path)
 	map_init(sl, file_path);
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
-	sl->gm.back_color = create_trgb(0, 24, 235, 249); // TODO: 定数
+	sl->gm.back_color = create_trgb(0, 24, 235, 249);
 	return;
 }
 
 void view_init(t_so_long *sl)
 {
-	sl->mlx = mlx_init();
-	if (!sl->mlx)
-		put_exit_err(ERR_MLX);
 	sl->win = mlx_new_window(sl->mlx, WIDTH, HEIGHT, TITLE);
 	if (!sl->win)
 		put_exit_err(ERR_MLX);
@@ -220,7 +249,7 @@ void game_update(t_so_long *sl)
 	draw_imgs(sl);
 }
 
-int main_loop(t_so_long *sl)
+int update(t_so_long *sl)
 {
 	(void)sl;
 	game_update(sl);
@@ -230,7 +259,7 @@ int main_loop(t_so_long *sl)
 
 void game_clear()
 {
-	ft_putendl_fd("CLEAR", STDOUT_FILENO);
+	ft_putendl_fd(CLEAR_TEXT, STDOUT_FILENO);
 	exit(EXIT_SUCCESS);
 }
 
@@ -301,6 +330,81 @@ int main(int argc, char **argv)
 	sl_init(&sl, argv[1]);
 	mlx_hook(sl.win, 33, 1L << 17, close_btn_hook, &sl);
 	mlx_hook(sl.win, KeyPress, KeyPressMask, key_press_hook, &sl);
-	mlx_loop_hook(sl.mlx, main_loop, &sl);
+	mlx_loop_hook(sl.mlx, update, &sl);
 	mlx_loop(sl.mlx);
+}
+
+void bfs_clear(t_list **lst)
+{
+	ft_lstclear(lst, &free);
+	free(lst);
+}
+
+bool is_edge(t_so_long *sl, t_ipair p)
+{
+	return (p.first <= 0 || p.second <= 0 ||
+			p.first >= sl->gm.height - 1 || p.second >= sl->gm.width - 1);
+}
+
+void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum)
+{
+	const int dx[4] = {0, 1, 0, -1};
+	const int dy[4] = {1, 0, -1, 0};
+	t_ipair p;
+	int c;
+
+	p = *(t_ipair *)(*lst)->content;
+	if (sl->gm.map[p.first][p.second] == ITEM)
+		(*item_sum)++;
+	ft_lstdel_front(lst);
+	c = -1;
+	if (is_edge(sl, p))
+		put_exit_err(ERR_FILE);
+	while (++c < 4)
+		if (sl->gm.map[p.first + dx[c]][p.second + dy[c]] != WALL && map[p.first + dx[c]][p.second + dy[c]] == 0)
+		{
+			ft_lstadd_back(lst, ft_lstnew(make_ipair(p.first + dx[c],
+													 p.second + dy[c])));
+			map[p.first + dx[c]][p.second + dy[c]] = 1;
+		}
+}
+
+void map_bfs(t_so_long *sl, int **map, t_ipair p)
+{
+	t_list **lst;
+	int item_sum;
+
+	lst = (t_list **)ft_calloc(1, sizeof(t_list *));
+	*lst = ft_lstnew(make_ipair(p.first, p.second));
+	item_sum = 0;
+	while (*lst)
+		bfs_utils(sl, map, lst, &item_sum);
+	bfs_clear(lst);
+	if (item_sum != sl->gm.item_sum)
+		put_exit_err(ERR_FILE);
+}
+
+void is_close_map(t_so_long *sl)
+{
+	int **map;
+	int i;
+	t_ipair p;
+
+	i = 0;
+	map = (int **)malloc(sizeof(int *) * sl->gm.height);
+	if (!map)
+		put_exit_err(ERR_MALLOC);
+	while (i < sl->gm.height)
+	{
+		map[i] = (int *)ft_calloc(sl->gm.width, sizeof(int));
+		if (!map[i])
+			put_exit_err(ERR_MALLOC);
+		i++;
+	}
+	p.first = sl->gm.pl.x;
+	p.second = sl->gm.pl.y;
+	map_bfs(sl, map, p);
+	while (i-- > 0)
+		free(map[i]);
+	free(map);
 }
