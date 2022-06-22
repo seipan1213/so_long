@@ -27,7 +27,7 @@ t_dc_lst *read_map(char *file_path)
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
-		if (ret <= 0)
+		if (ret <= 0 && !ft_strncmp(line, "\0", 1))
 			break;
 		dc_lst_addback(map, line);
 		if (width != (int)ft_strlen(line))
