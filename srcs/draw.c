@@ -57,7 +57,12 @@ void draw_select_img(t_so_long *sl, int map_x, int map_y)
 	else if (key == GOAL)
 		draw_img(sl, &sl->goal_img, p, true);
 	else if (key == PL)
-		draw_img(sl, &sl->player_img, p, true);
+	{
+		if (sl->gm.frame < SEC_FRAME / 2)
+			draw_img(sl, &sl->player_1_img, p, true);
+		else
+			draw_img(sl, &sl->player_2_img, p, true);
+	}
 }
 
 void draw_imgs(t_so_long *sl)

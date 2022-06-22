@@ -49,7 +49,8 @@ void view_init(t_so_long *sl)
 
 void imgs_init(t_so_long *sl)
 {
-	read_img(sl, &sl->player_img, PLAYER_PATH);
+	read_img(sl, &sl->player_1_img, PLAYER_1_PATH);
+	read_img(sl, &sl->player_2_img, PLAYER_2_PATH);
 	read_img(sl, &sl->goal_img, GOAL_PATH);
 	read_img(sl, &sl->wall_img, WALL_PATH);
 	read_img(sl, &sl->item_img, ITEM_PATH);

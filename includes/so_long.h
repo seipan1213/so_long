@@ -14,6 +14,8 @@
 #define WIDTH 1200
 #define HEIGHT 800
 
+#define SEC_FRAME 30
+
 #define KEY_ESC 65307
 #define KEY_A 97
 #define KEY_W 119
@@ -32,7 +34,8 @@
 #define MAP_UN_KNOW_CHAR_ERR "Error\nMap: unknown character"
 #define MAP_CANT_FINISH_ERR "Error\nMap: cant finish"
 
-#define PLAYER_PATH "img/player.xpm"
+#define PLAYER_1_PATH "img/player_1.xpm"
+#define PLAYER_2_PATH "img/player_2.xpm"
 #define ITEM_PATH "img/item.xpm"
 #define GOAL_PATH "img/goal.xpm"
 #define WALL_PATH "img/wall.xpm"
@@ -103,6 +106,7 @@ typedef struct s_game_manager
 	int move_cnt;
 	size_t back_color;
 	t_player pl;
+	int frame;
 } t_game_manager;
 
 typedef struct s_dc_lst
@@ -119,7 +123,8 @@ typedef struct s_so_long
 	t_img win_img;
 	t_img wall_img;
 	t_img back_img;
-	t_img player_img;
+	t_img player_1_img;
+	t_img player_2_img;
 	t_img goal_img;
 	t_img item_img;
 	t_game_manager gm;

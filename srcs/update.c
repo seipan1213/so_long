@@ -9,6 +9,7 @@ int update(t_so_long *sl)
 
 void game_update(t_so_long *sl)
 {
+	sl->gm.frame = (sl->gm.frame + 1) % SEC_FRAME;
 	draw_back(sl);
 	draw_imgs(sl);
 }
