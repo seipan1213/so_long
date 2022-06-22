@@ -28,7 +28,7 @@ void check_map(t_so_long *sl)
 	is_close_map(sl);
 }
 
-void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum) // TODO: ゴール探索
+void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_g_sum)
 {
 	const int dx[4] = {0, 1, 0, -1};
 	const int dy[4] = {1, 0, -1, 0};
@@ -36,8 +36,8 @@ void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum) // TODO: �
 	int c;
 
 	p = *(t_ipair *)(*lst)->content;
-	if (sl->gm.map[p.first][p.second] == ITEM)
-		(*item_sum)++;
+	if (sl->gm.map[p.first][p.second] == ITEM || sl->gm.map[p.first][p.second] == GOAL)
+		(*item_g_sum)++;
 	ft_lstdel_front(lst);
 	c = -1;
 	if (is_edge(sl, p))
@@ -54,15 +54,15 @@ void bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_sum) // TODO: �
 void map_bfs(t_so_long *sl, int **map, t_ipair p)
 {
 	t_list **lst;
-	int item_sum;
+	int item_g_sum;
 
 	lst = (t_list **)ft_calloc(1, sizeof(t_list *));
 	*lst = ft_lstnew(make_ipair(p.first, p.second));
-	item_sum = 0;
+	item_g_sum = 0;
 	while (*lst)
-		bfs_utils(sl, map, lst, &item_sum);
+		bfs_utils(sl, map, lst, &item_g_sum);
 	bfs_clear(lst);
-	if (item_sum != sl->gm.item_sum)
+	if (item_g_sum != sl->gm.item_sum + 1)
 		put_exit_err(ERR_MAP_CANT_FINISH);
 }
 
