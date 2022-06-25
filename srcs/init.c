@@ -6,7 +6,7 @@
 /*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 20:08:48 by sehattor          #+#    #+#             */
-/*   Updated: 2022/06/25 20:10:07 by sehattor         ###   ########.fr       */
+/*   Updated: 2022/06/25 20:43:47 by sehattor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	map_init(t_so_long *sl, char *file_path)
 	t_dc_lst	*map;
 
 	map = read_map(file_path);
+	if (get_lst_size(map) == 0)
+		put_exit_err(ERR_MAP_MISSING);
 	sl->gm.height = get_lst_size(map);
 	sl->gm.width = ft_strlen(get_first_lst(map)->value);
 	sl->gm.item_sum = 0;

@@ -6,7 +6,7 @@
 /*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 19:48:20 by sehattor          #+#    #+#             */
-/*   Updated: 2022/06/25 19:49:07 by sehattor         ###   ########.fr       */
+/*   Updated: 2022/06/25 20:51:10 by sehattor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	input_check(int argc, char **argv)
 	if (argc != 2)
 		put_exit_err(ERR_ARG);
 	len = ft_strlen(argv[1]);
-	if (len <= 4 && ft_strncmp(&argv[1][len - 4], ".ber", 5))
+	if (len <= 4 || ft_strncmp(&argv[1][len - 4], ".ber", 5))
 		put_exit_err(ERR_FILE);
 }
 

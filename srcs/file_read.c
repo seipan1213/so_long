@@ -6,7 +6,7 @@
 /*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 20:10:52 by sehattor          #+#    #+#             */
-/*   Updated: 2022/06/25 20:11:05 by sehattor         ###   ########.fr       */
+/*   Updated: 2022/06/25 20:42:23 by sehattor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,16 @@ t_dc_lst	*read_map(char *file_path)
 	if (fd <= 0)
 		put_exit_err(ERR_FILE);
 	map = dc_lst_init();
-	ret = get_next_line(fd, &line);
-	dc_lst_addback(map, line);
-	width = ft_strlen(line);
+	ret = 1;
+	width = -1;
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret <= 0 && !ft_strncmp(line, "\0", 1))
 			break ;
 		dc_lst_addback(map, line);
+		if (width == -1)
+			width = ft_strlen(line);
 		if (width != (int)ft_strlen(line))
 			put_exit_err(ERR_MAP_NOT_RECT);
 	}
