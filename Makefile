@@ -11,7 +11,7 @@ LIBFT_PATH	=	./libft
 LIBFT		=	${LIBFT_PATH}/libft.a
 
 MLX_PATH	:=	./minilibx-linux
-MLX_LIB		:=	-L$(MLX_PATH) -Lmlx -lmlx -Imlx -lXext -lX11 -lm -lz
+MLX_LIB		:=	-L$(MLX_PATH) -lmlx -lXext -lX11 -lm -lbsd
 
 INCLUDES	=	-I ./includes -I ${LIBFT_PATH}
 CC			=	cc
