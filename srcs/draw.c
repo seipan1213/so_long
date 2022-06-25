@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 20:19:35 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 20:20:37 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void draw_back(t_so_long *sl)
+void	draw_back(t_so_long *sl)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -18,12 +30,12 @@ void draw_back(t_so_long *sl)
 	}
 }
 
-void draw_img(t_so_long *sl, t_img *img, t_ipair p, bool is_ignore)
+void	draw_img(t_so_long *sl, t_img *img, t_ipair p, bool is_ignore)
 {
-	int y;
-	int x;
-	size_t color;
-	size_t ignore_color;
+	int		y;
+	int		x;
+	size_t	color;
+	size_t	ignore_color;
 
 	y = 0;
 	ignore_color = pic_color(*img, 0, 0);
@@ -32,19 +44,21 @@ void draw_img(t_so_long *sl, t_img *img, t_ipair p, bool is_ignore)
 		x = 0;
 		while (x < sl->gm.s_width)
 		{
-			color = pic_color(*img, x * (img->width / (double)sl->gm.s_width), y * (img->height / (double)sl->gm.s_height));
+			color = pic_color(*img, x * (img->width / (double)sl->gm.s_width),
+					y * (img->height / (double)sl->gm.s_height));
 			if (!is_ignore || color != ignore_color)
-				my_mlx_pixel_put(&sl->win_img, x + p.first, y + p.second, color);
+				my_mlx_pixel_put(&sl->win_img, x + p.first,
+					y + p.second, color);
 			x++;
 		}
 		y++;
 	}
 }
 
-void draw_select_img(t_so_long *sl, int map_x, int map_y)
+void	draw_select_img(t_so_long *sl, int map_x, int map_y)
 {
-	int key;
-	t_ipair p;
+	int		key;
+	t_ipair	p;
 
 	key = sl->gm.map[map_y][map_x];
 	p.first = map_x * sl->gm.s_width;
@@ -65,10 +79,10 @@ void draw_select_img(t_so_long *sl, int map_x, int map_y)
 	}
 }
 
-void draw_imgs(t_so_long *sl)
+void	draw_imgs(t_so_long *sl)
 {
-	int map_x;
-	int map_y;
+	int	map_x;
+	int	map_y;
 
 	map_y = 0;
 	while (map_y < sl->gm.height)

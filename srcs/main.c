@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 19:48:20 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 19:49:07 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void input_check(int argc, char **argv)
+void	input_check(int argc, char **argv)
 {
-	size_t len;
+	size_t	len;
 
 	if (argc != 2)
 		put_exit_err(ERR_ARG);
@@ -11,12 +23,9 @@ void input_check(int argc, char **argv)
 		put_exit_err(ERR_FILE);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
-
-	t_so_long sl;
+	t_so_long	sl;
 
 	input_check(argc, argv);
 	sl_init(&sl, argv[1]);

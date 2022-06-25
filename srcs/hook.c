@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 20:11:50 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 20:19:17 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-int close_btn_hook(int keycode, t_so_long *sl)
+int	close_btn_hook(int keycode, t_so_long *sl)
 {
 	(void)sl;
 	(void)keycode;
 	exit(EXIT_FAILURE);
 }
 
-int key_press_hook(int keycode, t_so_long *sl)
+int	key_press_hook(int keycode, t_so_long *sl)
 {
 	if (keycode == KEY_ESC)
 		exit(EXIT_SUCCESS);
@@ -22,25 +34,20 @@ int key_press_hook(int keycode, t_so_long *sl)
 	return (0);
 }
 
-void player_move(t_so_long *sl, int vec_type)
+void	player_move(t_so_long *sl, int vec_type)
 {
-	int next_px;
-	int next_py;
+	int	next_px;
+	int	next_py;
 
 	next_px = sl->gm.pl.x;
 	next_py = sl->gm.pl.y;
-	if (vec_type == UP)
-		next_py--;
-	else if (vec_type == DOWN)
-		next_py++;
-	else if (vec_type == RIGHT)
-		next_px++;
-	else if (vec_type == LEFT)
-		next_px--;
-	if (sl->gm.map[next_py][next_px] == GOAL && sl->gm.item_sum == sl->gm.pl.get_item)
+	next_xy(&next_px, &next_py, vec_type);
+	if (sl->gm.map[next_py][next_px] == GOAL
+		&& sl->gm.item_sum == sl->gm.pl.get_item)
 		game_clear(sl);
-	if (sl->gm.map[next_py][next_px] != SP && sl->gm.map[next_py][next_px] != ITEM)
-		return;
+	if (sl->gm.map[next_py][next_px] != SP
+		&& sl->gm.map[next_py][next_px] != ITEM)
+		return ;
 	if (sl->gm.map[next_py][next_px] == ITEM)
 		sl->gm.pl.get_item++;
 	sl->gm.map[next_py][next_px] = PL;
@@ -51,7 +58,19 @@ void player_move(t_so_long *sl, int vec_type)
 	ft_putendl_fd("", STDOUT_FILENO);
 }
 
-void game_clear(t_so_long *sl)
+void	next_xy(int *x, int *y, int vec_type)
+{
+	if (vec_type == UP)
+		(*y)--;
+	else if (vec_type == DOWN)
+		(*y)++;
+	else if (vec_type == RIGHT)
+		(*x)++;
+	else if (vec_type == LEFT)
+		(*x)--;
+}
+
+void	game_clear(t_so_long *sl)
 {
 	ft_putnbr_fd(++sl->gm.move_cnt, STDOUT_FILENO);
 	ft_putendl_fd("", STDOUT_FILENO);

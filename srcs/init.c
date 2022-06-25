@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 20:08:48 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 20:10:07 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void sl_init(t_so_long *sl, char *file_path)
+void	sl_init(t_so_long *sl, char *file_path)
 {
 	ft_bzero(sl, sizeof(t_so_long));
 	sl->mlx = mlx_init();
@@ -11,18 +23,18 @@ void sl_init(t_so_long *sl, char *file_path)
 	view_init(sl);
 }
 
-void game_init(t_so_long *sl, char *file_path)
+void	game_init(t_so_long *sl, char *file_path)
 {
 	map_init(sl, file_path);
 	sl->gm.s_width = WIDTH / sl->gm.width;
 	sl->gm.s_height = HEIGHT / sl->gm.height;
 	sl->gm.back_color = create_trgb(0, 62, 204, 96);
-	return;
+	return ;
 }
 
-void map_init(t_so_long *sl, char *file_path)
+void	map_init(t_so_long *sl, char *file_path)
 {
-	t_dc_lst *map;
+	t_dc_lst	*map;
 
 	map = read_map(file_path);
 	sl->gm.height = get_lst_size(map);
@@ -34,7 +46,7 @@ void map_init(t_so_long *sl, char *file_path)
 	clear_lst(map);
 }
 
-void view_init(t_so_long *sl)
+void	view_init(t_so_long *sl)
 {
 	sl->win = mlx_new_window(sl->mlx, WIDTH, HEIGHT, TITLE);
 	if (!sl->win)
@@ -43,11 +55,11 @@ void view_init(t_so_long *sl)
 	if (!sl->win_img.img)
 		put_exit_err(ERR_MLX);
 	sl->win_img.addr = mlx_get_data_addr(sl->win_img.img, &sl->win_img.bpp,
-										 &sl->win_img.llen, &sl->win_img.endian);
+			&sl->win_img.llen, &sl->win_img.endian);
 	mlx_do_key_autorepeatoff(sl->mlx);
 }
 
-void imgs_init(t_so_long *sl)
+void	imgs_init(t_so_long *sl)
 {
 	read_img(sl, &sl->player_1_img, PLAYER_1_PATH);
 	read_img(sl, &sl->player_2_img, PLAYER_2_PATH);

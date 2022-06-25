@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 19:59:43 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 19:59:52 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void put_exit_err(int type)
+void	put_exit_err(int type)
 {
 	if (type == ERR_MALLOC)
 		ft_putendl_fd(MALLOC_ERROR, STDERR_FILENO);
@@ -23,9 +35,9 @@ void put_exit_err(int type)
 	exit(EXIT_FAILURE);
 }
 
-t_ipair *make_ipair(int i, int j)
+t_ipair	*make_ipair(int i, int j)
 {
-	t_ipair *p;
+	t_ipair	*p;
 
 	p = (t_ipair *)malloc(sizeof(t_ipair));
 	p->first = i;

@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst_utils_1.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 19:50:03 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 19:51:18 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "so_long.h"
 
-void dc_lst_addfront(t_dc_lst *lst, char *value)
+void	dc_lst_addfront(t_dc_lst *lst, char *value)
 {
-	t_dc_lst *new;
+	t_dc_lst	*new;
 
 	new = malloc(sizeof(t_dc_lst));
 	if (!new)
@@ -17,9 +28,9 @@ void dc_lst_addfront(t_dc_lst *lst, char *value)
 	lst->next = new;
 }
 
-void dc_lst_addback(t_dc_lst *lst, char *value)
+void	dc_lst_addback(t_dc_lst *lst, char *value)
 {
-	t_dc_lst *new;
+	t_dc_lst	*new;
 
 	new = malloc(sizeof(t_dc_lst));
 	if (!new)
@@ -33,9 +44,9 @@ void dc_lst_addback(t_dc_lst *lst, char *value)
 	lst->prev = new;
 }
 
-t_dc_lst *dc_lst_init(void)
+t_dc_lst	*dc_lst_init(void)
 {
-	t_dc_lst *lst;
+	t_dc_lst	*lst;
 
 	lst = malloc(sizeof(t_dc_lst));
 	if (!lst)
@@ -46,9 +57,9 @@ t_dc_lst *dc_lst_init(void)
 	return (lst);
 }
 
-int get_lst_size(t_dc_lst *lst)
+int	get_lst_size(t_dc_lst *lst)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lst->value != NULL)
@@ -62,7 +73,7 @@ int get_lst_size(t_dc_lst *lst)
 	return (i);
 }
 
-t_dc_lst *get_first_lst(t_dc_lst *lst)
+t_dc_lst	*get_first_lst(t_dc_lst *lst)
 {
 	while (lst->value != NULL)
 		lst = lst->next;

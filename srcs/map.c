@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 19:49:18 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 19:49:47 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void set_type(t_so_long *sl, int type, int x, int y)
+void	set_type(t_so_long *sl, int type, int x, int y)
 {
 	if (type == PL)
 	{
@@ -11,11 +23,11 @@ void set_type(t_so_long *sl, int type, int x, int y)
 		sl->gm.item_sum++;
 }
 
-void conv_map(t_so_long *sl, t_dc_lst *map)
+void	conv_map(t_so_long *sl, t_dc_lst *map)
 {
-	int y;
-	int x;
-	int type;
+	int	y;
+	int	x;
+	int	type;
 
 	sl->gm.map = malloc(sizeof(int *) * sl->gm.height);
 	if (sl->gm.map == NULL)
@@ -40,7 +52,7 @@ void conv_map(t_so_long *sl, t_dc_lst *map)
 	}
 }
 
-int map_type(char c)
+int	map_type(char c)
 {
 	if (c == '0')
 		return (SP);

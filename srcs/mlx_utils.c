@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/25 20:24:04 by sehattor          #+#    #+#             */
+/*   Updated: 2022/06/25 20:24:07 by sehattor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-int create_trgb(int t, int r, int g, int b)
+int	create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
 
 	dst = img->addr + (y * img->llen + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
-size_t pic_color(t_img img, int x, int y)
+size_t	pic_color(t_img img, int x, int y)
 {
 	if (0 <= x && x < img.width && 0 <= y && y <= img.height)
 		return (*((unsigned int *)(img.addr + y * img.llen) + x));
