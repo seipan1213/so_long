@@ -6,7 +6,7 @@
 /*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 19:52:09 by sehattor          #+#    #+#             */
-/*   Updated: 2022/06/25 19:57:10 by sehattor         ###   ########.fr       */
+/*   Updated: 2022/06/27 21:57:19 by sehattor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	bfs_utils(t_so_long *sl, int **map, t_list **lst, int *item_g_sum)
 	while (++c < 4)
 	{
 		if (sl->gm.map[p.first + dx[c]][p.second + dy[c]] != WALL
+			&& sl->gm.map[p.first + dx[c]][p.second + dy[c]] != GOAL
 			&& map[p.first + dx[c]][p.second + dy[c]] == 0)
 		{
 			ft_lstadd_back(lst,
