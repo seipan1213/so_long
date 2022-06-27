@@ -6,7 +6,7 @@
 /*   By: sehattor <sehattor@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 20:11:50 by sehattor          #+#    #+#             */
-/*   Updated: 2022/06/25 20:19:17 by sehattor         ###   ########.fr       */
+/*   Updated: 2022/06/27 21:54:28 by sehattor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	close_btn_hook(int keycode, t_so_long *sl)
 {
 	(void)sl;
 	(void)keycode;
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }
 
 int	key_press_hook(int keycode, t_so_long *sl)
